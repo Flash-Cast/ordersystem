@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>メニュー一覧</title>
+</head>
+<body>
+    <h1>メニュー一覧</h1>
+    <form method="post" action="{% url 'order_create' %}">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>商品</th>
+                <th>価格</th>
+                <th>数量</th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.price }}円</td>
+                <td>
+                    <input type="number" name="quantity_{{ item.id }}" min="0" value="0">
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">購入</button>
+    </form>
+</body>
+</html>
