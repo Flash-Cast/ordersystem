@@ -8,7 +8,6 @@ import os
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 from django.db import transaction # トランザクションのために追加
 
 # Excel関連の定数
@@ -182,6 +181,3 @@ def complete_order(request, order_id):
 
     return redirect('order_list')
 
-def custom_logout(request):
-    logout(request)
-    return redirect('menu_list')

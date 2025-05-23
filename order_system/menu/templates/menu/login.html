@@ -1,19 +1,61 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>販売者ログイン</title>
-</head>
-<body>
-    <h1>販売者ログイン</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label>ユーザー名：<input type="text" name="username"></label><br>
-        <label>パスワード：<input type="password" name="password"></label><br>
-        <button type="submit">ログイン</button>
-    </form>
-    {% if form.errors %}
-        <p style="color: red;">ログインに失敗しました。</p>
-    {% endif %}
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}販売者ログイン - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="login-container">
+        <h1 class="page-title">販売者ログイン</h1>
+
+        <form method="post" action="{% url 'login' %}" class="login-form">
+            {% csrf_token %}
+
+            {# フォーム全体のエラーメッセージ (ユーザー名・パスワードの組み合わせ間違いなど) #}
+            {% if form.non_field_errors %}
+                <div class="form-errors error-message">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {# フォームフィールドのレンダリング #}
+            {# AuthenticationFormのフィールドは 'username' と 'password' #}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">ユーザー名：</label>
+                {{ form.username }} {# ここでinputタグがレンダリングされる #}
+                {% if form.username.errors %}
+                    <div class="field-errors error-message">
+                        {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">パスワード：</label>
+                {{ form.password }} {# ここでinputタグがレンダリングされる #}
+                {% if form.password.errors %}
+                    <div class="field-errors error-message">
+                        {% for error in form.password.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# `next` パラメータがある場合、ログイン後にそのURLにリダイレクトするための隠しフィールド #}
+            {# LoginViewが自動的に処理してくれるので通常は意識しなくても良いが、明示的に書くことも可能 #}
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary btn-block">ログイン</button>
+        </form>
+
+        
+    </div>
+</div>
+{% endblock %}

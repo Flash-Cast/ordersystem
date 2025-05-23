@@ -146,37 +146,43 @@ p {
 }
 
 /* --- Forms --- */
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="number"],
-select,
-textarea {
+input[type="text"].form-control, /* クラス指定を追加 */
+input[type="password"].form-control,
+input[type="email"].form-control,
+input[type="number"].form-control,
+select.form-control,
+textarea.form-control {
     width: 100%;
-    padding: 0.5em 0.75em;
-    margin-bottom: 0.75em;
+    padding: 0.6em 0.9em; /* 少し調整 */
+    margin-bottom: 0; /* form-group でマージン管理 */
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     font-size: 1rem;
+    line-height: 1.5; /* 入力フィールドの高さ調整 */
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus,
+input[type="text"].form-control:focus,
+input[type="password"].form-control:focus,
+input[type="email"].form-control:focus,
+input[type="number"].form-control:focus,
 select:focus,
-textarea:focus {
+textarea.form-control:focus {
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-label {
+.form-group {
+    margin-bottom: 1.25rem; /* 各フォームグループ間のマージン */
+}
+
+.form-group label {
     display: block;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.5rem; /* ラベルと入力フィールド間のマージン */
     font-weight: 600;
 }
+
 
 /* --- Menu List Specific (menu_list.html) --- */
 .menu-container {
@@ -484,6 +490,23 @@ label {
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
+
+.login-container .page-title { /* h1 に .page-title を適用した場合 */
+    text-align: center;
+    margin-bottom: 1.5em;
+    font-size: 1.8rem; /* 調整 */
+}
+
+.btn-block { /* ボタンを親要素の幅いっぱいに広げる (再掲) */
+    display: block;
+    width: 100%;
+}
+.login-form .btn-primary { /* .btn-block と併用 */
+    margin-top: 1.5em; /* ボタンの上のマージン */
+    padding-top: 0.75em; /* ボタンの上下パディング調整 */
+    padding-bottom: 0.75em;
+}
+
 .login-container h1 { text-align: center; margin-bottom: 1.5em; }
 .login-container form label { margin-top: 1em; }
 .login-container form button[type="submit"].btn { margin-top: 1.5em; width: 100%;} /* .btn を適用 */
@@ -495,6 +518,39 @@ label {
     border-radius: 0.25rem;
     margin-top: 1em;
     text-align: center;
+}
+
+/* エラーメッセージのスタイル (汎用的に使えるように) */
+.error-message,
+.form-errors, /* Djangoの non_field_errors 用 */
+.field-errors { /* Djangoの field.errors 用 */
+    color: #721c24; /* エラーテキストの色 (Bootstrapのdanger色) */
+    background-color: #f8d7da; /* エラー背景色 */
+    border: 1px solid #f5c6cb; /* エラー枠線 */
+    padding: 0.75rem 1.25rem; /* パディング */
+    margin-bottom: 1rem; /* 下マージン */
+    border-radius: 0.25rem; /* 角丸 */
+    font-size: 0.9rem;
+}
+.form-errors p,
+.field-errors p {
+    margin-bottom: 0.25rem; /* エラーメッセージ内のpタグのマージン調整 */
+}
+.form-errors p:last-child,
+.field-errors p:last-child {
+    margin-bottom: 0;
+}
+
+.general-login-error { /* 元のコードのシンプルなエラーメッセージ用 */
+    text-align: center;
+}
+
+.login-links { /* パスワードリセットなどのリンク用 */
+    margin-top: 1.5rem;
+}
+.login-links p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
 }
 
 /* Utility Classes */
