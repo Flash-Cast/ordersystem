@@ -1,30 +1,57 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>メニュー一覧</title>
-</head>
-<body>
-    <h1>メニュー一覧</h1>
-    <form method="post" action="{% url 'order_create' %}">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <th>商品</th>
-                <th>価格</th>
-                <th>数量</th>
-            </tr>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.price }}円</td>
-                <td>
-                    <input type="number" name="quantity_{{ item.id }}" min="0" value="0">
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        <button type="submit">購入</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}メニュー一覧 - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">メニュー一覧</h1>
+    <section class="menu">
+        <form method="post" action="{% url 'order_confirm' %}">
+            {% csrf_token %}
+            {% if items %}
+            <div class="menu-container">
+                {% for item in items %}
+                <div class="menu-card">
+                    {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                    {% else %}
+                    {# 画像がない場合のプレースホルダー表示 #}
+                    <div class="menu-card-no-image">
+                        <p>No Image</p>
+                    </div>
+                    {% endif %}
+                    <h2>{{ item.name }}</h2>
+                    <p class="item-description">{{ item.description|default:"商品説明はありません。" }}</p>
+                    <p class="item-price"><strong>{{ item.price }}</strong>円</p> {# strong タグは価格の数値部分だけにするとより良い場合も #}
+                    {# アクセシビリティ向上のため aria-label を追加 #}
+                    <label for="quantity_{{ item.id }}" class="sr-only">{{ item.name }}の数量</label> {# スクリーンリーダー用ラベル #}
+                    <input type="number" id="quantity_{{ item.id }}" name="quantity_{{ item.id }}" value="0" min="0" aria-label="{{ item.name }}の数量">
+                </div>
+                {% endfor %}
+            </div>
+            <div class="menu-actions">
+                <button class="btn" type="submit">注文内容の確認へ進む</button>
+            </div>
+            {% else %}
+            <p class="text-center">現在注文できる商品がありません。</p>
+            {% endif %}
+        </form>
+    </section>
+</div>
+
+{# スクリーンリーダー用ラベルのためのCSS (style.cssに追加) #}
+<style>
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+</style>
+{% endblock %}

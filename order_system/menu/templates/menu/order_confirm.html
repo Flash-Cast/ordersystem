@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ご注文内容の確認 - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="order-confirm-container"> {# 全体を囲むコンテナ (CSSでスタイル定義済み) #}
+        <h2 class="page-title">ご注文内容の確認</h2> {# 共通のページタイトルクラス #}
+
+        <form action="{% url 'order_submit' %}" method="post">
+            {% csrf_token %}
+
+            <div class="order-items-list"> {# 注文アイテムリストを囲む #}
+                {% for item in order_items %}
+                    <div class="order-item"> {# 各アイテム (CSSでスタイル定義済み) #}
+                        <span class="item-name">{{ item.name }}</span>
+                        <span class="item-details">{{ item.quantity }} 点 - {{ item.subtotal }}円</span>
+                        {# 数量は送信されるので、表示上の詳細はこれで十分 #}
+                        <input type="hidden" name="quantity_{{ item.id }}" value="{{ item.quantity }}">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="total-amount-section"> {# 合計金額セクション #}
+                <p class="total-amount"><strong>合計金額:</strong> {{ total }}円</p> {# 合計金額 (CSSでスタイル定義済み) #}
+            </div>
+
+            <div class="order-confirm-actions"> {# 操作ボタンのコンテナ (CSSでスタイル定義済み) #}
+                <a href="{% url 'menu_list' %}" class="btn btn-secondary">戻って修正する</a> {# 汎用ボタンスタイル secondary #}
+                <button class="btn" type="submit">注文を確定する</button> {# 汎用ボタンスタイル primary #}
+            </div>
+        </form>
+        
+        {# <a href="{% url 'menu_list' %}" class="btn btn-secondary back_btn_outside_form" >注文画面へ戻る</a> #}
+    </div>
+</div>
+{% endblock %}

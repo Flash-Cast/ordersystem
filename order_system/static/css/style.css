@@ -1,0 +1,507 @@
+/* static/css/style.css - 改善案 */
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa; /* よりニュートラルな背景色 */
+    margin: 0;
+}
+
+/* --- Layout Containers --- */
+.container {
+    width: 90%;
+    max-width: 1200px; /* PCでの最大幅を設定 */
+    margin: 0 auto;
+    padding: 20px 15px;
+}
+
+/* --- Header (base.html) --- */
+header {
+    background-color: #ffffff;
+    padding: 1em 0;
+    border-bottom: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .site-title a { /* base.htmlの<h1><a>...</a></h1>を想定 */
+    font-size: 1.8rem;
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header .user-navigation a,
+header .user-navigation .logout-button {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 15px;
+    transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+}
+header .user-navigation a:hover,
+header .user-navigation .logout-button:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+header .user-navigation .logout-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: inherit; /* 周囲のリンクと同じフォントサイズ */
+}
+
+
+/* --- Main Content --- */
+main {
+    padding-top: 20px;
+    padding-bottom: 40px;
+    min-height: calc(100vh - 160px); /* ヘッダーとフッターの高さを考慮して最小高さを設定 */
+}
+
+/* --- Footer (base.html) --- */
+footer {
+    background-color: #343a40;
+    color: #f8f9fa;
+    text-align: center;
+    padding: 1.5em 0;
+    font-size: 0.9rem;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    color: #343a40; /* 見出しの色 */
+}
+
+.page-title { /* 各ページのメインタイトル用 */
+    font-size: 2rem;
+    margin-bottom: 1.5em;
+    text-align: center;
+    color: #495057;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block;
+    padding: 0.6em 1.2em;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.05);
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #545b62;
+}
+
+/* --- Forms --- */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.5em 0.75em;
+    margin-bottom: 0.75em;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+}
+
+/* --- Menu List Specific (menu_list.html) --- */
+.menu-container {
+    display: grid;
+    /* カラム数を画面幅に応じて変更: 最小280px、最大1fr (利用可能なスペースを均等に分割) */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px; /* カード間の隙間 */
+    padding-top: 1rem; /* 既存のpaddingを維持または調整 */
+    width: 100%; /* 幅を100%に */
+}
+
+.menu-card {
+    background: #fff; /* 背景を白に統一 */
+    border-radius: 8px; /* 角を少し丸く */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* より自然な影 */
+    padding: 1.25em; /* 20px */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.menu-card img, .menu-card-no-image {
+    width: 100%;
+    height: 220px; /* 高さを少し大きく */
+    object-fit: cover; /* 画像がコンテナに合わせてトリミングされる */
+    border-radius: 6px; /* 画像の角も丸く */
+    margin-bottom: 1em; /* 15px */
+}
+.menu-card-no-image { /* 画像がない場合のスタイル */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9ecef;
+    color: #6c757d;
+    font-style: italic;
+}
+
+
+.menu-card h2 {
+    font-size: 1.3rem; /* 20px 前後 */
+    margin-top: 0;
+    margin-bottom: 0.5em; /* 10px */
+    color: #343a40;
+}
+
+.menu-card .item-description {
+    font-size: 0.9rem; /* 14px */
+    color: #495057;
+    margin-bottom: 0.75em; /* 10px */
+    flex-grow: 1; /* 説明文がカードの高さを調整するのに役立つ */
+}
+
+.menu-card .item-price {
+    font-size: 1.15rem; /* 18px 前後 */
+    font-weight: bold;
+    color: #dc3545; /* 価格の色をアクセントに */
+    margin-bottom: 1em; /* 15px */
+}
+.menu-card .item-price strong { font-weight: inherit; } /* strongタグの太字を継承 */
+
+.menu-card input[type="number"] {
+    width: 80px;
+    padding: 0.5em;
+    text-align: center;
+    margin: 0 auto 1em auto; /* 中央揃え、下にマージン */
+    border: 1px solid #ced4da;
+}
+
+.menu-actions { /* 「確認へ進む」ボタンのコンテナ */
+    margin-top: 2em; /* 30px */
+    text-align: center;
+}
+
+/* 元の .menu_btn は汎用 .btn クラスを使用 */
+
+/* --- Order Confirm Specific (order_confirm.html) --- */
+.order-confirm-container {
+    background-color: #fff;
+    padding: 2em; /* 30px */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    max-width: 700px;
+    margin: 20px auto;
+}
+.order-confirm-container h2 { /* .page-title を使うか、専用スタイル */
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75em 0;
+    border-bottom: 1px solid #eee;
+    font-size: 1rem;
+}
+.order-item:last-of-type { /* 最後のアイテムの下線を消す */
+    border-bottom: none;
+}
+.order-item .item-name { font-weight: 500; }
+.order-item .item-details { color: #555; }
+
+.total-amount {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #28a745; /* 合計金額を緑で強調 */
+    text-align: right;
+    margin-top: 1.5em;
+    margin-bottom: 2em;
+    padding-top: 1em;
+    border-top: 2px solid #007bff;
+}
+.order-confirm-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5em;
+}
+
+/* --- Order List Specific (order_list.html) --- */
+.order-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5em;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-radius: 8px;
+    overflow: hidden; /* border-radiusを維持 */
+}
+.order-list-table th,
+.order-list-table td {
+    border-bottom: 1px solid #dee2e6; /* 横線のみでモダンに */
+    padding: 0.9em 1em;
+    text-align: left;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+.order-list-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+    color: #495057;
+    border-top: 1px solid #dee2e6; /* テーブル上部の線 */
+    white-space: nowrap; /* ヘッダーが折り返さないように */
+}
+
+/* 行の状態に応じたスタイル */
+.order-list-table tr.order-row-completed {
+    background-color: #f0fff0; /* 薄い緑 */
+}
+.order-list-table tr.order-row-completed:hover {
+    background-color: #e6f9e6;
+}
+.order-list-table tr.order-row-pending {
+    background-color: #fff8e1; 
+}
+
+
+.order-list-table .order-items-cell span {
+    display: inline-block; /* 各アイテムが改行されるように */
+    margin-bottom: 0.3em;
+}
+.order-list-table .order-items-cell span:last-child {
+    margin-bottom: 0;
+}
+
+.order-list-table .text-right {
+    text-align: right;
+}
+
+.status-badge {
+    padding: 0.25em 0.6em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 10px;
+    color: #fff;
+    white-space: nowrap;
+}
+.status-completed {
+    background-color: #28a745; /* 緑 */
+}
+.status-pending {
+    background-color: #ffc107; /* 黄色 */
+    color: #212529; /* 黄色の場合は文字色を濃くする */
+}
+.completion-time {
+    font-size: 0.8em;
+    color: #6c757d;
+    display: block; /* バッジの下に表示 */
+    margin-top: 0.2em;
+}
+
+
+.order-list-table .action-cell {
+    text-align: center; /* ボタンやアイコンを中央揃えに */
+    white-space: nowrap;
+}
+.order-list-table .complete-order-form {
+    margin: 0; /* フォームのデフォルトマージンをリセット */
+}
+.order-list-table .action-completed-icon {
+    font-size: 1.2em;
+    color: #28a745;
+}
+
+/* 小さなボタン用のスタイル */
+.btn-small {
+    padding: 0.3em 0.8em;
+    font-size: 0.85rem;
+}
+/* 成功を示すボタンの色 (Bootstrap風) */
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+
+.page-actions {
+    margin-top: 2em;
+    text-align: center;
+    padding-bottom: 1em; /* フッターとの間に少し余白 */
+}
+.page-actions .btn {
+    margin: 0 0.5em;
+}
+
+/* テーブルレスポンシブ対応用ラッパー */
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto; /* 横スクロールを可能にする */
+    -webkit-overflow-scrolling: touch; /* iOSでの慣性スクロール */
+    margin-bottom: 1em; /* 下に少し余白 */
+}
+
+/* より高度なレスポンシブテーブル (data-label を使用する場合の例 - 必要に応じて調整) */
+@media screen and (max-width: 768px) {
+    .order-list-table thead {
+        display: none; /* 狭い画面ではヘッダーを非表示に */
+    }
+    .order-list-table tr {
+        display: block;
+        margin-bottom: 1em;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+    .order-list-table td {
+        display: block;
+        text-align: right; /* 値を右寄せ */
+        padding-left: 50%; /* ラベル表示用のスペースを確保 */
+        position: relative;
+        border-bottom: 1px dotted #eee; /* 各セルの区切りを分かりやすく */
+    }
+    .order-list-table td:last-child {
+        border-bottom: none;
+    }
+    .order-list-table td:before {
+        content: attr(data-label); /* data-label属性の内容を表示 */
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        text-align: left;
+        white-space: nowrap;
+    }
+    .order-list-table .action-cell,
+    .order-list-table .text-right {
+        text-align: right; /* ボタンや右寄せ指定のセルは右寄せを維持 */
+    }
+     .order-list-table .order-items-cell {
+        text-align: left; /* 注文内容は左寄せの方が読みやすい */
+        padding-left: 10px; /* 左側の余白を調整 */
+    }
+    .order-list-table .order-items-cell:before {
+        display: none; /* 注文内容セルではデフォルトのdata-label表示を抑制（必要なら） */
+    }
+}
+
+.order-list-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+.order-list-table .status-completed { color: #28a745; font-weight: bold; }
+.order-list-table .status-pending { color: #ffc107; font-weight: bold; }
+.order-list-table .action-button .btn {
+    padding: 0.4em 0.8em;
+    font-size: 0.85rem;
+}
+.order-list-actions { margin-top: 2em; text-align: center; }
+.order-list-actions a { margin: 0 10px; }
+
+
+/* --- Login Page Specific (login.html) --- */
+.login-container {
+    max-width: 480px; /* 少し広げる */
+    margin: 50px auto;
+    padding: 2.5em; /* 40px */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.login-container h1 { text-align: center; margin-bottom: 1.5em; }
+.login-container form label { margin-top: 1em; }
+.login-container form button[type="submit"].btn { margin-top: 1.5em; width: 100%;} /* .btn を適用 */
+.login-container .error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 0.75em 1.25em;
+    border-radius: 0.25rem;
+    margin-top: 1em;
+    text-align: center;
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.25rem !important; }
+.mt-2 { margin-top: 0.5rem !important; }
+.mt-3 { margin-top: 1rem !important; }
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mb-2 { margin-bottom: 0.5rem !important; }
+.mb-3 { margin-bottom: 1rem !important; }
