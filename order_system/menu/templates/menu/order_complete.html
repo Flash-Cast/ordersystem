@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ご注文完了 - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="order-complete-container text-center"> {# text-center は style.css の汎用クラスを想定 #}
+        <h1 class="page-title">ご注文ありがとうございます！</h1>
+        
+        <div class="order-summary">
+            <h2>ご注文内容</h2>
+            <p><strong>整理番号:</strong> {{ order_id }}</p>
+            <p><strong>合計金額:</strong> {{ total_price }}円</p>
+        </div>
+
+        <div class="order-complete-actions mt-3"> {# mt-3 は style.css のマージントップ汎用クラスを想定 #}
+            <a href="{% url 'menu_list' %}" class="btn btn-primary">お買い物に戻る</a>
+            {% if user.is_authenticated %}
+                {# ログインユーザーであれば注文履歴へのリンクも表示 #}
+                <a href="{% url 'order_list' %}" class="btn btn-secondary">注文履歴を見る</a>
+            {% endif %}
+        </div>
+        
+        <p class="text-muted mt-2"><small>ご注文内容は記録されました。</small></p>
+    </div>
+</div>
+{% endblock %}
