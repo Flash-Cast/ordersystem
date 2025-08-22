@@ -17,6 +17,23 @@ class MenuItem(models.Model):
         return f"{self.name}（{self.price}円）"
 
 class Order(models.Model):
+    ENTRY_METHOD_CHOICES = [
+        ('online', 'オンライン'),
+        ('manual', '手動入力'),
+    ]
+    entry_method = models.CharField(
+        max_length=10,
+        choices=ENTRY_METHOD_CHOICES,
+        default='online'
+    )
+
+    STATUS_CHOICES = [
+        ('pending', '未完了'),
+        ('completed', '完了'),
+        ('canceled', 'キャンセル'),
+    ]
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+     
     created_at = models.DateTimeField(auto_now_add=True)
     total_price = models.IntegerField()
     completed_at = models.DateTimeField(null=True, blank=True) 

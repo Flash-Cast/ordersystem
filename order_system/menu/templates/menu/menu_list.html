@@ -7,7 +7,7 @@
 <div class="container">
     <h1 class="page-title">メニュー一覧</h1>
     <section class="menu">
-        <form method="post" action="{% url 'order_confirm' %}">
+        <form method="post" action="{% url 'menu:order_confirm' %}">
             {% csrf_token %}
             {% if items %}
             <div class="menu-container">

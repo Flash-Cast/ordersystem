@@ -8,7 +8,7 @@
     <div class="login-container">
         <h1 class="page-title">販売者ログイン</h1>
 
-        <form method="post" action="{% url 'login' %}" class="login-form">
+        <form method="post" action="{% url 'menu:login' %}" class="login-form">
             {% csrf_token %}
 
             {# フォーム全体のエラーメッセージ (ユーザー名・パスワードの組み合わせ間違いなど) #}

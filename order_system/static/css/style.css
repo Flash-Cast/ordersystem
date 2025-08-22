@@ -392,6 +392,11 @@ textarea.form-control:focus {
     color: #28a745;
 }
 
+.manual-order {
+    background-color: #fffbe6; 
+    
+}
+
 /* 小さなボタン用のスタイル */
 .btn-small {
     padding: 0.3em 0.8em;
@@ -563,6 +568,18 @@ textarea.form-control:focus {
     margin-bottom: 2em;
 }
 
+.warning{
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    padding: 1em;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    display: inline-block;
+    text-align: center;
+    background-color: yellow;
+}
+
 .order-summary {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
@@ -581,6 +598,10 @@ textarea.form-control:focus {
     text-align: center; /* サマリーのタイトルは中央寄せ */
 }
 
+.order-summary h3{
+    font-size: 3rem;
+}
+
 .order-summary p {
     font-size: 1.1rem;
     margin-bottom: 0.5em;
@@ -588,6 +609,40 @@ textarea.form-control:focus {
 
 .order-complete-actions .btn {
     margin: 0.5em;
+}
+
+
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+
+.callout-actions .btn {
+    margin-top: 1.5em;
+    padding: 10px 30px; /* ボタンを大きく */
+}
+
+ /* --- 呼び出し行ハイライト用CSS (style.css に移すのが望ましい) --- */
+.order-list-table tbody tr.called-out {
+    background-color: #fcf8e3 !important; /* Bootstrapの warning 背景色に近い色 */
+    /* font-weight: bold; */ /* 必要であれば */
+    outline: 2px solid #faebcc;
+    outline-offset: -2px;
+}
+/* 呼び出しボタンが押されたことを示すスタイル (オプション) */
+.callout-button.active {
+    background-color: #d9534f !important; /* 押された感じの色 */
+    border-color: #d43f3a !important;
+    color: white !important;
 }
 
 /* Utility Classes */

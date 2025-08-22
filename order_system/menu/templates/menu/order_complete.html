@@ -7,18 +7,24 @@
 <div class="container">
     <div class="order-complete-container text-center"> {# text-center は style.css の汎用クラスを想定 #}
         <h1 class="page-title">ご注文ありがとうございます！</h1>
-        
+        <div class="warning">
+            <h2>この画面を閉じてしまうと整理券が失われます。<br>閉じないでおくか、スクリーンショットを撮っておいてください。</h2>
+        </div>
+        <br>
         <div class="order-summary">
             <h2>ご注文内容</h2>
-            <p><strong>整理番号:</strong> {{ order_id }}</p>
+            <h3><strong>整理番号:</strong> {{ order_id }}</h3>
+            <div class="order-item">
+                <p><strong>注文内容:</strong><span class="item-name">{{ item.name }}</span> - <span class="item-details">{{ item.quantity }} 点</span> </p>
+            </div>
             <p><strong>合計金額:</strong> {{ total_price }}円</p>
         </div>
 
         <div class="order-complete-actions mt-3"> {# mt-3 は style.css のマージントップ汎用クラスを想定 #}
-            <a href="{% url 'menu_list' %}" class="btn btn-primary">お買い物に戻る</a>
+            <a href="{% url 'menu:menu_list' %}" class="btn btn-primary">お買い物に戻る</a>
             {% if user.is_authenticated %}
                 {# ログインユーザーであれば注文履歴へのリンクも表示 #}
-                <a href="{% url 'order_list' %}" class="btn btn-secondary">注文履歴を見る</a>
+                <a href="{% url 'menu:order_list' %}" class="btn btn-secondary">注文履歴を見る</a>
             {% endif %}
         </div>
         

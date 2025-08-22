@@ -1,15 +1,35 @@
 {% extends 'base.html' %}
-{% load static %} {# base.htmlを継承する場合、staticはbase.htmlで読み込まれていれば不要なこともありますが、念のため記載 #}
+{% load static %}
 
 {% block title %}注文一覧（販売側） - {{ block.super }}{% endblock %}
 
 {% block content %}
+<div style="margin: 20px 0;">
+    <a href="{% url 'menu:staff_order_entry' %}" class="btn btn-success">＋ 新規注文を手動入力</a>
+    <a href="{% url 'menu:export_orders' %}" class="btn btn-primary">注文リストをCSVでダウンロード</a>
+    <a href="{% url 'menu:export_sales' %}" class="btn btn-info">売上データをCSVでダウンロード</a>
+</div>
+<div style="margin-top: 40px; padding: 20px; border: 2px solid #dc3545; border-radius: 5px;">
+    <h4 style="color: #dc3545;">危険な操作</h4>
+    <p>この操作はすべての注文履歴を完全に削除し、元に戻すことはできません。</p>
+    <form action="{% url 'menu:reset_orders' %}" method="post" onsubmit="return confirm('本当によろしいですか？すべての注文履歴が完全に削除されます。');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">注文履歴をリセットする</button>
+    </form>
+</div>
 <div class="container">
     <h1 class="page-title">注文一覧（販売側）</h1>
 
+    {# JavaScriptに値を渡すための非表示要素 #}
+    <div id="realtime-script-data" 
+         data-latest-orders-api-url="{% url 'menu:latest_orders_api' %}"
+         data-csrf-token="{{ csrf_token }}"> {# CSRFトークンを渡す場合 #}
+    </div>
+
+    {# ... (既存のテーブル構造はそのまま) ... #}
     {% if orders %}
-    <div class="table-responsive-wrapper"> {# テーブルのレスポンシブ対応用ラッパー #}
-        <table class="order-list-table"> {# CSSでスタイル定義済みのクラスを適用 #}
+    <div class="table-responsive-wrapper">
+        <table class="order-list-table" id="order-table">
             <thead>
                 <tr>
                     <th>整理番号</th>
@@ -20,10 +40,9 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="order-table-body">
                 {% for order in orders %}
-                    {# class名をCSSの定義に合わせるか、CSS側で .completed を利用 #}
-                <tr class="{% if order.completed_at %}order-row-completed{% else %}order-row-pending{% endif %}">
+                <tr id="order-row-{{ order.id }}" class="{% if order.completed_at %}order-row-completed{% else %}order-row-pending{% endif %}">
                     <td data-label="整理番号">{{ order.id }}</td>
                     <td data-label="注文日時">{{ order.created_at|date:"Y-m-d H:i" }}</td>
                     <td data-label="注文内容" class="order-items-cell">
@@ -32,7 +51,7 @@
                         {% endfor %}
                     </td>
                     <td data-label="合計金額" class="text-right">{{ order.total_price }}円</td>
-                    <td data-label="状態">
+                    <td data-label="状態" class="order-status-cell">
                         {% if order.completed_at %}
                             <span class="status-badge status-completed">完了</span>
                             <span class="completion-time">({{ order.completed_at|date:"Y-m-d H:i" }})</span>
@@ -42,9 +61,9 @@
                     </td>
                     <td data-label="操作" class="action-cell">
                         {% if not order.completed_at %}
-                        <form method="POST" action="{% url 'complete_order' order.id %}" class="complete-order-form">
+                        <form method="POST" action="{% url 'menu:complete_order' order.id %}" class="complete-order-form">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-small btn-success">完了にする</button> {# 汎用ボタンスタイルを適用 #}
+                            <button type="submit" class="btn btn-small btn-success">完了にする</button>
                         </form>
                         {% else %}
                             <span class="action-completed-icon">✔</span>
@@ -56,14 +75,12 @@
         </table>
     </div>
     {% else %}
-    <p class="text-center">現在、注文はありません。</p>
+    <p class="text-center" id="no-orders-message">現在、注文はありません。</p>
     {% endif %}
-
-    <div class="page-actions"> {# ページ下部のリンクコンテナ #}
-        <a href="{% url 'menu_list' %}" class="btn btn-secondary">注文画面へ戻る</a>
-        {# 管理者画面へのリンクは base.html のヘッダーにもありますが、必要であればここにも残します #}
-        {# <a href="{% url 'admin:index' %}" class="btn btn-outline-secondary">管理者画面へ</a> #}
-    </div>
-
+    {# ... (page-actions など) ... #}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/order_list_realtime.js' %}"></script>
 {% endblock %}

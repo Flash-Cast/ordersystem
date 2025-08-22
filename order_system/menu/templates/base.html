@@ -12,19 +12,19 @@
     <header>
         <div class="container">
             <div class="site-title">
-                 <a href="{% url 'menu_list' %}">注文サイト</a>
+                 <a href="{% url 'menu:menu_list' %}">注文サイト</a>
             </div>
             <nav class="user-navigation">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'order_list' %}">注文一覧</a>
+                    <a href="{% url 'menu:order_list' %}">注文一覧</a>
                     <a href="{% url 'admin:index' %}">管理者画面</a>
                     {# ログアウトはPOSTで行うのが推奨されるためフォームにする #}
-                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    <form action="{% url 'menu:logout' %}" method="post" style="display: inline;">
                         {% csrf_token %}
                         <button type="submit" class="logout-button">ログアウト</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'login' %}">販売者ログイン</a>
+                    <a href="{% url 'menu:login' %}">販売者ログイン</a>
                 {% endif %}
             </nav>
         </div>
@@ -36,7 +36,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; {% now "Y" %} 祭tech All rights reserved.</p>
+            <p>&copy; {% now "Y" %} Ryuta Tsukui All rights reserved.</p>
         </div>
     </footer>
 

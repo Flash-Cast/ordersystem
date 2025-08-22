@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}スタッフ手動注文 - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+        <h2>新規注文入力</h2>
+        <p>口頭での注文をここから入力します。</p>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>商品名</th>
+                        <th style="width: 120px;">価格</th>
+                        <th style="width: 150px;">数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.price }}円</td>
+                        <td>
+                            <input type="number" name="quantity_{{ item.id }}" class="form-control" value="0" min="0">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">この内容で注文を作成</button>
+            <a href="{% url 'menu:order_list' %}" class="btn btn-secondary">キャンセルして一覧に戻る</a>
+        </form>
+</div>
+{% endblock %}

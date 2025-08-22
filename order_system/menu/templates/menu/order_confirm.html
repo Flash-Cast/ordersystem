@@ -8,7 +8,7 @@
     <div class="order-confirm-container"> {# 全体を囲むコンテナ (CSSでスタイル定義済み) #}
         <h2 class="page-title">ご注文内容の確認</h2> {# 共通のページタイトルクラス #}
 
-        <form action="{% url 'order_submit' %}" method="post">
+        <form action="{% url 'menu:order_submit' %}" method="post">
             {% csrf_token %}
 
             <div class="order-items-list"> {# 注文アイテムリストを囲む #}
@@ -27,7 +27,7 @@
             </div>
 
             <div class="order-confirm-actions"> {# 操作ボタンのコンテナ (CSSでスタイル定義済み) #}
-                <a href="{% url 'menu_list' %}" class="btn btn-secondary">戻って修正する</a> {# 汎用ボタンスタイル secondary #}
+                <a href="{% url 'menu:menu_list' %}" class="btn btn-secondary">戻って修正する</a> {# 汎用ボタンスタイル secondary #}
                 <button class="btn" type="submit">注文を確定する</button> {# 汎用ボタンスタイル primary #}
             </div>
         </form>
